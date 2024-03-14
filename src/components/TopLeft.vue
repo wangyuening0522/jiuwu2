@@ -5,7 +5,7 @@ const airTemp = [
     list: {
       temperature: {
         icon: "iconfont icon-wendu",
-        value: "温度 20",
+        value: "温度 20°C",
       },
       humidity: {
         icon: "iconfont icon-shidu1",
@@ -35,37 +35,37 @@ const airTemp = [
 const tableData = [
   {
     number: "T098j",
-    temp: 24.56,
+    temp: "24.56 °C",
     box: "rack10",
     type: 1,
   },
   {
     number: "T910d",
-    temp: 23.09,
+    temp: "23.09 °C",
     box: "rack36",
     type: 0,
   },
   {
     number: "T237j",
-    temp: 26.34,
+    temp: "26.34 °C",
     box: "rack4",
     type: 0,
   },
   {
     number: "T217j",
-    temp: 24.21,
+    temp: "24.21 °C",
     box: "rack18",
     type: 0,
   },
   {
     number: "T217j",
-    temp: 24.21,
+    temp: "24.21 °C",
     box: "rack18",
     type: 0,
   },
   {
     number: "T217j",
-    temp: 24.21,
+    temp: "24.21 °C",
     box: "rack18",
     type: 0,
   },
