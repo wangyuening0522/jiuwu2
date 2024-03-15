@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import wendu from "./wendu.vue";
+import shidu from "./shidu.vue";
 const airTemp = [
   {
     name: "空调1",
@@ -108,6 +110,9 @@ const tableData2 = [
     type: 0,
   },
 ];
+const filterTag = (value: any, row: any) => {
+  return row.type === Number.parseInt(value);
+};
 </script>
 
 <template>
@@ -116,7 +121,12 @@ const tableData2 = [
       <div class="allTitle">空调温度:</div>
       <!-- 因为传入的值需要加"".且是一个对象的时候，属性值是字符串需要加‘’ -->
       <el-card style="margin-bottom: 10px">
-        <div class="title"><span> 空调1 </span> <span>开关</span></div>
+        <div class="title">
+          <span> 空调1 </span>
+          <div class="kaiguanbox">
+            <span>开关</span><span class="kaiguan">ON</span>
+          </div>
+        </div>
         <div class="listBox">
           <div>
             <p
@@ -140,8 +150,13 @@ const tableData2 = [
           </div>
         </div>
       </el-card>
-      <el-card style="margin-bottom: 10px">
-        <div class="title">空调2</div>
+      <el-card style="margin-bottom: 10px; margin-left: 20px">
+        <div class="title">
+          空调2
+          <div class="kaiguanbox">
+            <span>开关</span><span class="kaiguan">ON</span>
+          </div>
+        </div>
         <div class="listBox">
           <div>
             <p
@@ -166,7 +181,12 @@ const tableData2 = [
         </div>
       </el-card>
       <el-card>
-        <div class="title">空调3</div>
+        <div class="title">
+          空调3
+          <div class="kaiguanbox">
+            <span>开关</span><span class="kaiguan" style="color: red">OFF</span>
+          </div>
+        </div>
         <div class="listBox">
           <div>
             <p
@@ -190,8 +210,13 @@ const tableData2 = [
           </div>
         </div>
       </el-card>
-      <el-card>
-        <div class="title">空调4</div>
+      <el-card style="margin-left: 20px">
+        <div class="title">
+          空调4
+          <div class="kaiguanbox">
+            <span>开关</span><span class="kaiguan">ON</span>
+          </div>
+        </div>
         <div class="listBox">
           <div>
             <p
@@ -219,24 +244,36 @@ const tableData2 = [
     <div class="topRight">
       <el-card
         :body-style="{ width: '100%', height: '100%' }"
-        style="width: 100%; height: 100%; padding: 5px 5px"
+        style="width: 100%; height: 100%; padding: 0px 5px"
       >
         <div class="topRightInner">
           <div class="top-l">
             <div class="title">温度传感器</div>
             <div class="content">
               <span>传感器数量:&nbsp;32</span>
-              <img src="../assets/images/温度.png" alt="" />
+              <div class="wenduDiv"><wendu /></div>
+              <!-- <img src="../assets/images/温度.png" alt="" /> -->
             </div>
 
             <el-table :data="tableData" border style="width: 100%">
               <el-table-column width="100px" prop="number" label="设备编号" />
               <el-table-column width="100px" prop="temp" label="温度" />
               <el-table-column width="100px" prop="box" label="所属机柜" />
-              <el-table-column width="100px" prop="type" label="类型">
+              <el-table-column
+                prop="type"
+                label="类型"
+                width="100"
+                :filters="[
+                  { text: '入风', value: '1' },
+                  { text: '出风', value: '0' },
+                ]"
+                :filter-method="filterTag"
+                filter-placement="bottom-end"
+              >
                 <template #default="scope">
                   <el-tag
                     :type="scope.row.type === 1 ? 'success' : 'warning'"
+                    disable-transitions
                     >{{ scope.row.type === 1 ? "入风" : "出风" }}</el-tag
                   >
                 </template>
@@ -247,16 +284,27 @@ const tableData2 = [
             <div class="title">湿度传感器</div>
             <div class="content">
               <span>传感器数量:&nbsp;13</span>
-              <img src="../assets/images/湿度.png" alt="" />
+              <div class="shiduDiv"><shidu /></div>
             </div>
             <el-table :data="tableData2" border style="width: 100%">
               <el-table-column width="100px" prop="number" label="设备编号" />
               <el-table-column width="100px" prop="humidness" label="湿度" />
               <el-table-column width="100px" prop="box" label="所属机柜" />
-              <el-table-column width="100px" prop="type" label="类型">
+              <el-table-column
+                prop="type"
+                label="类型"
+                width="100"
+                :filters="[
+                  { text: '入风', value: '1' },
+                  { text: '出风', value: '0' },
+                ]"
+                :filter-method="filterTag"
+                filter-placement="bottom-end"
+              >
                 <template #default="scope">
                   <el-tag
                     :type="scope.row.type === 1 ? 'success' : 'warning'"
+                    disable-transitions
                     >{{ scope.row.type === 1 ? "入风" : "出风" }}</el-tag
                   >
                 </template>
@@ -272,21 +320,26 @@ const tableData2 = [
 <style scoped lang="scss">
 .top {
   display: flex;
-  padding: 10px 10px;
+  padding: 5px 10px;
   width: 100%;
   height: 50vh;
   .topLeft {
     display: flex;
     flex-wrap: wrap;
-    width: 560px;
-    justify-content: space-around;
-    background-color: rgb(245, 245, 245); /*  */
+    width: 35%;
+    background-color: rgb(245, 245, 245); 
     padding: 5px 5px;
     :deep(.el-card) {
       border-radius: 20px;
     }
     :deep(.el-card__body) {
       padding: 5px 10px;
+    }
+    .kaiguanbox {
+      font-size: smaller;
+      .kaiguan {
+        color: green;
+      }
     }
     .allTitle {
       flex: 0 0 100%;
@@ -301,26 +354,28 @@ const tableData2 = [
     }
   }
   .topRight {
-    width: 60%;
+    width: 65%;
     background-color: pink;
     margin-left: 20px;
+    :deep(.el-card__body) {
+      padding: 5px 10px;
+    }
     .topRightInner {
       display: flex;
-      justify-content: space-around;
       .top-l {
         height: 200px;
         .content {
-          height: 70px;
+          height: 60px;
           span {
             font-size: 19px;
             position: relative;
-            bottom: 86px;
           }
-          img {
+          .wenduDiv {
             width: 200px;
+            height: 150px;
             position: relative;
-            bottom: 40px;
-            left: 80px;
+            bottom: 90px;
+            left: 200px;
           }
         }
         .title {
@@ -330,24 +385,24 @@ const tableData2 = [
         }
       }
       .top-r {
-        margin-left: 20px;
+        margin-left: 100px;
         .title {
           font-weight: bolder;
           font-size: larger;
           margin-bottom: 15px;
         }
         .content {
-          height: 70px;
+          height: 60px;
           span {
             font-size: 19px;
             position: relative;
-            bottom: 86px;
           }
-          img {
+          .shiduDiv {
             width: 200px;
+            height: 150px;
             position: relative;
-            bottom: 40px;
-            left: 80px;
+            bottom: 90px;
+            left: 200px;
           }
         }
       }

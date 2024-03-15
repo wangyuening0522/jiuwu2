@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getCurrentInstance, onMounted } from "vue";
+console.log(111,getCurrentInstance())
 const echarts =
   getCurrentInstance().appContext.config.globalProperties.$echarts;
 onMounted(() => {
@@ -23,7 +24,12 @@ onMounted(() => {
     },
     tooltip: {
       trigger: "axis",
-      // formatter: '{b0}: {c0}<br />{b1}: {c1}'
+      axisPointer: {
+        type: "cross",
+        label: {
+          backgroundColor: "#6a7985",
+        },
+      },
       padding: [
         10, // 上
         10, // 右
@@ -33,15 +39,6 @@ onMounted(() => {
       textStyle: { lineHeight: 56 },
       formatter:
         "策略执行前: {c0}kW.h<br />策略执行后: {c1}kW.h<br />累计节省：64kW.h<br/>节省电费：51.20元",
-    },
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "cross",
-        label: {
-          backgroundColor: "#6a7985",
-        },
-      },
     },
     xAxis: [
       {
@@ -70,6 +67,7 @@ onMounted(() => {
           show: true,
           position: "top",
         },
+        color: "rgb(228,57,97)",
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
@@ -86,6 +84,7 @@ onMounted(() => {
       {
         name: "执行策略前",
         type: "line",
+        color: "rgb(187,233,166)",
         data: [820, 932, 901, 800, 780, 771, 719],
         label: {
           show: true,

@@ -34,7 +34,7 @@ const tableData = [
     range: "查看",
   },
 ];
-const filterTag = (value: string, row: User) => {
+const filterTag = (value: any, row: any) => {
   return row.type === value;
 };
 </script>
@@ -85,14 +85,21 @@ const filterTag = (value: string, row: User) => {
 <style scoped lang="scss">
 .Bottom {
   width: 100%;
-  background-color: pink;
   height: 45vh;
+  padding: 5px 10px;
+  :deep(.el-card__body) {
+    padding: 5px 10px;
+  }
+  .title {
+    margin-bottom: 20px;
+  }
   .content {
     width: 100%;
     height: 100%;
     display: flex;
+    justify-content: space-between;
     .bottom-l {
-      width: 50%;
+      width: 40%;
     }
     .bottom-r {
       width: 50%;
